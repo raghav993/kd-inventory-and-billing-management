@@ -1,0 +1,40 @@
+name: 🚀 Deploy Official site on Live Server
+
+on:
+  push:
+    branches:
+      - master
+ 
+jobs:
+  web-deploy:
+    name: 🎉 Deploy
+    runs-on: ubuntu-latest
+ 
+    steps:
+    - name: 🚚 Get latest code
+      uses: actions/checkout@v2
+ 
+    - name: 📂 Sync files via FTP
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.3
+      with:
+        server: sever_ip_address
+        username: web@example.com
+        password: ${{ secrets.FTP_PASSWORD }}
+        server-dir: /
+        protocol: ftp
+        port: 21
+        dangerous-clean-slate: false 
+        
+        exclude: |
+          **/vendor/**
+          **/node_modules/**
+          **/*.zip
+          **/.git*
+          **/.htaccess
+          **/storage/**
+          **/public/**
+          **/.github/**
+          **/.env
+          **/composer.json
+          **/composer.lock
+          **/package.json
